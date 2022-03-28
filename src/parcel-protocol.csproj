@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Faactory.Channels.Parcel</RootNamespace>
+    <AssemblyName>faactory.channels.parcel</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Faactory.Channels.Parcel</PackageId>
+    <Version>0.1-preview-3</Version>
+    <Authors>Goncalo Oliveira</Authors>
+    <Description>Channels - Parcel Protocol</Description>
+    <RepositoryUrl>https://github.com/goncalo-oliveira/channels-parcel</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>faactory.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Faactory.Channels" Version="0.1.0-preview-3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+    <None Include="../faactory.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>
