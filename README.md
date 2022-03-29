@@ -4,6 +4,8 @@ Parcel Protocol implementation for the Channels library.
 
 Learn more about [Parcel Protocol](https://github.com/goncalo-oliveira/parcel-spec).
 
+Learn more about [Channels](https://github.com/goncalo-oliveira/channels);
+
 ## Getting Started
 
 Install the package from NuGet
