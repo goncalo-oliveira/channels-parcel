@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Faactory.Channels.Parcel</PackageId>
-    <Version>0.1-preview-3</Version>
+    <Version>0.1-preview-5</Version>
     <Authors>Goncalo Oliveira</Authors>
     <Description>Channels - Parcel Protocol</Description>
     <RepositoryUrl>https://github.com/goncalo-oliveira/channels-parcel</RepositoryUrl>
@@ -17,12 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Faactory.Channels" Version="0.1.0-preview-3" />
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+    <None Include="../faactory.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../README.md" Pack="true" PackagePath="/" />
-    <None Include="../faactory.png" Pack="true" PackagePath="/" />
+    <PackageReference Include="Faactory.Channels.Abstractions" Version="0.1.0-preview-11" />
   </ItemGroup>
 
 </Project>

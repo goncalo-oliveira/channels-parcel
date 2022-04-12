@@ -1,9 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Faactory.Channels.Parcel.Observables;
+using Faactory.Channels.Adapters;
 
-namespace Faactory.Channels.Parcel;
+namespace Faactory.Channels;
 
-public static class ClientChannelBuilderExtensions
+public static class ParcelChannelBuilderExtensions
 {
     /// <summary>
     /// Adds a singleton service for the message observer

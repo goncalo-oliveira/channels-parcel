@@ -43,27 +43,4 @@ public sealed class ParcelEncoderAdapter : ChannelAdapter<IEnumerable<Message>>
 
         return  Task.CompletedTask;
     }
-
-    protected override object? TransformData( object data )
-    {
-        var convertedData = base.TransformData(data);
-
-        if ( convertedData != null )
-        {
-            return ( convertedData );
-        }
-
-        // convert from a single message to an array since our decoder deals with an enumerable
-        if ( data.GetType() == typeof( Message ) )
-        {
-            logger.LogDebug( "Transformed 'Message' to 'Message[]'." );
-
-            return new Message[]
-            {
-                (Message)data
-            };
-        }
-
-        return ( null );
-    }
 }
