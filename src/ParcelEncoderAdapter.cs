@@ -7,7 +7,7 @@ namespace Faactory.Channels.Adapters;
 /// <summary>
 /// Encodes IEnumerable<Message>, forwards a byte array
 /// </summary>
-public sealed class ParcelEncoderAdapter : ChannelAdapter<IEnumerable<Message>>
+public sealed class ParcelEncoderAdapter : ChannelAdapter<IEnumerable<Message>>, IOutputChannelAdapter
 {
     private readonly ILogger logger;
 

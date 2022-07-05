@@ -7,7 +7,7 @@ namespace Faactory.Channels.Adapters;
 /// <summary>
 /// Decodes Parcel Messages from an IByteBuffer, forwarding a Message array
 /// </summary>
-public sealed class ParcelDecoderAdapter : ChannelAdapter<IByteBuffer>
+public sealed class ParcelDecoderAdapter : ChannelAdapter<IByteBuffer>, IInputChannelAdapter
 {
     private readonly ILogger logger;
 
