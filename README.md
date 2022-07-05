@@ -11,7 +11,7 @@ Learn more about [Channels](https://github.com/goncalo-oliveira/channels);
 Install the package from NuGet
 
 ```bash
-dotnet add package Faactory.Channels.Parcel --prerelease
+dotnet add package Faactory.Channels.Parcel
 ```
 
 To enable decoding or encoding of Parcel Messages on the pipeline, we just need to register the respective adapters with the channel pipeline. It is the same for server or client channels.
@@ -66,7 +66,7 @@ if ( replyMessage == null )
 This isn't enough though... Because the handling of the messages is done by our pipeline and by our handler, we need to tell the observer when we receive messages. For this example, we'll do it on our `MyMessageHandler` handler.
 
 ```csharp
-public class MyMessageHandler : ChannelHandler<IEnumerable<Message>>
+public class MyMessageHandler : ChannelHandler<Message>
 {
     private IMessageObserver observer;
 
@@ -76,15 +76,13 @@ public class MyMessageHandler : ChannelHandler<IEnumerable<Message>>
         observer = messageObserver;
     }
 
-    public override Task ExecuteAsync( IChannelContext context, IEnumerable<Message> data )
+    public override Task ExecuteAsync( IChannelContext context, Message message )
     {
-        foreach ( var message in data )
-        {
-            // ...
+        // ...
 
-            // let the observer know we received a message
-            observer.Push( message );
-        }
+        // let the observer know we received a message
+        observer.Push( message );
+
         // ...
     }
 }
