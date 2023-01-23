@@ -68,7 +68,7 @@ This isn't enough though... Because the handling of the messages is done by our 
 ```csharp
 public class MyMessageHandler : ChannelHandler<Message>
 {
-    private IMessageObserver observer;
+    private readonly IMessageObserver observer;
 
     public MyMessageHandler( IMessageObserver messageObserver )
     {
