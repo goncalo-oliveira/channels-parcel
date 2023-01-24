@@ -4,12 +4,12 @@ using Faactory.Channels.Adapters;
 
 namespace Faactory.Channels;
 
-public static class ParcelChannelBuilderExtensions
+public static class MessageObserverServiceExtensions
 {
     /// <summary>
     /// Adds a singleton service for the message observer
     /// </summary>
-    public static IClientChannelBuilder AddMessageObserver( this IClientChannelBuilder builder )
+    public static IChannelBuilder AddMessageObserver( this IChannelBuilder builder )
     {
         builder.Services.AddSingleton<IMessageObserver, MessageObserver>();
 
