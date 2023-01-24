@@ -19,5 +19,6 @@ public interface IMessageObserver
     /// Pushes a message through the observer releasing and pending locks
     /// </summary>
     /// <param name="message">The message to deliver</param>
-    void Push( Message message );
+    /// <returns>True if the message was delivered to an observable; false otherwise.</returns>
+    bool Push( Message message );
 }

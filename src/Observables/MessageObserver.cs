@@ -50,12 +50,12 @@ internal class MessageObserver : IMessageObserver
         return observable.Value;
     }
 
-    public void Push( Message message )
+    public bool Push( Message message )
     {
         if ( message.Id == null )
         {
             // ignore null identifiers
-            return;
+            return ( false );
         }
 
         var observable = observables.GetValueOrDefault( message.Id );
@@ -63,12 +63,14 @@ internal class MessageObserver : IMessageObserver
         if ( observable == null )
         {
             // observable not found
-            return;
+            return ( false );
         }
 
         logger.LogInformation( $"Pushed '{message.Id}'." );
 
         observable.Value = message;
         observable.CancellationTokenSource.Cancel();
+
+        return ( true );
     }
 }
