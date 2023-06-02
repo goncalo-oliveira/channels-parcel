@@ -17,16 +17,16 @@ dotnet add package Faactory.Channels.Parcel
 To enable decoding or encoding of Parcel Messages on the pipeline, we just need to register the respective adapters with the channel pipeline. It is the same for server or client channels.
 
 ```csharp
-IChannelBuilder builder = ...;
+IChannelBuilder channel = ...;
 
 // This adapter will decode from a byte[] and forward a Parcel.Message[]
-builder.AddInputAdapter<ParcelDecoderAdapter>();
+channel.AddInputAdapter<ParcelDecoderAdapter>();
 
 // User handler implementation to perform business logic
-builder.AddInputHandler<MyMessageHandler>();
+channel.AddInputHandler<MyMessageHandler>();
 
 // This adapter will encode a Parcel.Message or a Parcel.Message[] into a byte[]
-builder.AddOutputAdapter<ParcelEncoderAdapter>();
+channel.AddOutputAdapter<ParcelEncoderAdapter>();
 ```
 
 ## Observables
@@ -36,9 +36,9 @@ It is possible to write to the output channel and then wait for a specific respo
 To make this work, we first need to register the `IMessageObserver` service; this will allow us to retrieve the instance through dependency injection.
 
 ```csharp
-IChannelBuilder builder = ...;
+IChannelBuilder channel = ...;
 
-builder.AddMessageObserver();
+channel.AddMessageObserver();
 ```
 
 With the message observer registered, we just need to tell it that we want to wait for a message with a particular identifier. Here's an example
