@@ -23,7 +23,7 @@ public sealed class ParcelDecoderAdapter : ChannelAdapter<IByteBuffer>, IInputCh
         while ( data.ReadableBytes > 0 )
         {
             // a packet is at least 11 bytes
-            if ( data.Length < 11 )
+            if ( data.ReadableBytes < 11 )
             {
                 logger.LogDebug( "Not enough data. A Parcel packet requires at least 11 bytes." );
 
@@ -78,7 +78,7 @@ public sealed class ParcelDecoderAdapter : ChannelAdapter<IByteBuffer>, IInputCh
 
     private IEnumerable<Message> ReadPacket( IByteBuffer data )
     {
-        var offset = 0;
+        var offset = data.Offset;
         if ( data.GetByte( offset++ ) != Constants.Head )
         {
             throw new FormatException( "Head not found!" );
@@ -88,14 +88,14 @@ public sealed class ParcelDecoderAdapter : ChannelAdapter<IByteBuffer>, IInputCh
 
         offset += sizeof( uint );
 
-        var packetTailOffset = (int)( length + 5 );
+        var packetTailOffset = data.Offset + (int)( length + 5 );
 
         if ( data.GetByte( packetTailOffset ) != Constants.Tail )
         {
             throw new FormatException( "Tail not found!" );
         }
 
-        data.SkipBytes( offset );
+        data.SkipBytes( sizeof( uint ) + 1 );
 
         var messages = new List<Message>();
 

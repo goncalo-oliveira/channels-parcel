@@ -1,53 +1,46 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
-using Faactory.Channels.Parcel;
 
 namespace Faactory.Channels.Parcel.Observables;
 
-internal class MessageObserver : IMessageObserver
+internal sealed class MessageObserver : IMessageObserver
 {
-    private class Observable
-    {
-        public Observable()
-        {
-            CancellationTokenSource = new CancellationTokenSource();
-        }
-
-        public CancellationTokenSource CancellationTokenSource { get; }
-        public Message? Value { get; set; }
-    }
-
     private readonly ILogger logger;
-    private readonly ConcurrentDictionary<string, Observable> observables = new ConcurrentDictionary<string, Observable>();
+    private readonly ConcurrentDictionary<string, MessageObservable> observables = new();
 
     public MessageObserver( ILoggerFactory loggerFactory )
     {
         logger = loggerFactory.CreateLogger<MessageObserver>();
     }
 
-    public async Task<Message?> WaitForAsync( string messageId, TimeSpan timeout )
+    public IMessageObservable Create( params string[] messageIds )
     {
-        var observable = new Observable();
+        var observable = new MessageObservable(
+            () =>
+            {
+                foreach ( var messageId in messageIds )
+                {
+                    observables.TryRemove( messageId, out _ );
+                }
+            }
+        );
 
-        if ( !observables.TryAdd( messageId, observable ) )
+        var failAll = messageIds.Select( messageId => observables.TryAdd( messageId, observable ) )
+            .ToArray()
+            .All( added => !added );
+            ;
+
+        if ( failAll )
         {
-            return ( null );
+            throw new InvalidOperationException( "All message identifiers are already being observed." );
         }
 
-        logger.LogInformation( $"Waiting for '{messageId}'..." );
+        logger.LogDebug(
+            "Created message observable for {MessageIds}",
+            string.Join( ", ", messageIds )
+        );
 
-        try
-        {
-            await Task.Delay( timeout, observable.CancellationTokenSource.Token );
-        }
-        catch ( TaskCanceledException )
-        {}
-        finally
-        {
-            observables.TryRemove( messageId, out _ );
-        }
-
-        return observable.Value;
+        return observable;
     }
 
     public bool Push( Message message )
@@ -66,10 +59,13 @@ internal class MessageObserver : IMessageObserver
             return ( false );
         }
 
-        logger.LogInformation( $"Pushed '{message.Id}'." );
+        // set the observable value and trigger the pending wait
+        observable.Set( message );
 
-        observable.Value = message;
-        observable.CancellationTokenSource.Cancel();
+        logger.LogDebug(
+            "Observable set with {MessageId}",
+            message.Id
+        );
 
         return ( true );
     }

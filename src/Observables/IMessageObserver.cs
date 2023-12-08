@@ -8,12 +8,11 @@ namespace Faactory.Channels.Parcel.Observables;
 public interface IMessageObserver
 {
     /// <summary>
-    /// Waits for a message with the given identifier to be pushed
+    /// Creates an observable that waits for any of the given message identifiers to be pushed
     /// </summary>
-    /// <param name="messageId">The message identifier to wait for</param>
-    /// <param name="timeout">The time to wait for the message before timing out</param>
-    /// <returns>A message instance or null if timed out</returns>
-    Task<Message?> WaitForAsync( string messageId, TimeSpan timeout );
+    /// <param name="messageIds">The message identifiers to wait for</param>
+    /// <returns>An observable instance</returns>
+    IMessageObservable Create( params string[] messageIds );
 
     /// <summary>
     /// Pushes a message through the observer releasing and pending locks

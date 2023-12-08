@@ -41,21 +41,27 @@ IChannelBuilder channel = ...;
 channel.AddMessageObserver();
 ```
 
-With the message observer registered, we just need to tell it that we want to wait for a message with a particular identifier. Here's an example
+With the message observer registered, we can now create an observable instance for a particular identifier. Here's an example
 
 ```csharp
 IChannel channel = ...;
 IMessageObserver observer = ...;
 
-// for our example, we know that sending this message
-// will result in a reply with the identifier 'my-reply'
+/*
+Sending the message below to the channel will result
+in a reply with the identifier `my-reply`. Therefore,
+we create an observable for that identifier.
+*/
+var observable = observer.CreateObservable( "my-reply" );
+
+// send the message to the channel
 await channel.WriteAsync( new Message
 {
     // ...
 } );
 
-// so we tell the observer just that
-var replyMessage = await observer.WaitForAsync( "my-reply" );
+// tell the observable to wait for the reply
+var replyMessage = await observable.WaitAsync();
 
 if ( replyMessage == null )
 {
@@ -63,7 +69,9 @@ if ( replyMessage == null )
 }
 ```
 
-This isn't enough though... Because the handling of the messages is done by our pipeline and by our handler, we need to tell the observer when we receive messages. For this example, we'll do it on our `MyMessageHandler` handler.
+> **Note:** The observable instance is only valid once. It cannot be reused. Once the observable value is set, it is removed from the observer.
+
+This isn't enough though... Because the handling of the messages is done by our pipeline and by our handlers, we need to tell the observer when we receive messages. For this example, we'll do it on our `MyMessageHandler` handler.
 
 ```csharp
 public class MyMessageHandler : ChannelHandler<Message>
