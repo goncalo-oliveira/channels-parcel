@@ -69,7 +69,7 @@ if ( replyMessage == null )
 }
 ```
 
-> **Note:** The observable instance is only valid once. It cannot be reused. Once the observable value is set, it is removed from the observer.
+> **Note:** The observable instance is for single use. Once the observable value is set, it is removed from the observer.
 
 This isn't enough though... Because the handling of the messages is done by our pipeline and by our handlers, we need to tell the observer when we receive messages. For this example, we'll do it on our `MyMessageHandler` handler.
 

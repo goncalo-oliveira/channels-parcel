@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <RootNamespace>Faactory.Channels.Parcel</RootNamespace>
     <AssemblyName>faactory.channels.parcel</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Faactory.Channels.Parcel</PackageId>
-    <Version>0.3.1</Version>
+    <Version>0.4.0</Version>
     <Authors>Goncalo Oliveira</Authors>
     <Description>Channels - Parcel Protocol</Description>
     <RepositoryUrl>https://github.com/goncalo-oliveira/channels-parcel</RepositoryUrl>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Faactory.Channels.Core" Version="0.8.5" />
+    <PackageReference Include="Faactory.Channels.Core" Version="0.9.0" />
   </ItemGroup>
 
 </Project>
